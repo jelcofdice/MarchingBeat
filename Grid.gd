@@ -49,7 +49,7 @@ func resolve_moves():
 
 func dispatch_moves():
 	for unit in confirmed_moves:
-		var new_pos = pending_moves[unit]
+		var new_pos = confirmed_moves[unit]
 		if new_pos == unit.pos:
 			unit.bearing = Vector2i.ZERO
 		else:
