@@ -1,0 +1,21 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://b5ua2hbocd64y"]
+
+[ext_resource type="Texture2D" uid="uid://cbwvnwjnvmmbf" path="res://art/tilesets/tileset_4tiles_sample.bmp" id="1_18noj"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ua53i"]
+resource_name = "Terrain_basecolours"
+texture = ExtResource("1_18noj")
+0:0/0 = 0
+1:0/0 = 0
+1:0/0/custom_data_0 = true
+0:1/0 = 0
+1:1/0 = 0
+1:1/0/custom_data_0 = true
+
+[resource]
+uv_clipping = true
+custom_data_layer_0/name = "Walkable"
+custom_data_layer_0/type = 1
+custom_data_layer_1/name = "Capturable"
+custom_data_layer_1/type = 1
+sources/0 = SubResource("TileSetAtlasSource_ua53i")
