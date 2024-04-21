@@ -27,9 +27,9 @@ var pos: Vector2i = Vector2i.ZERO:
 var bearing: Vector2i = Vector2i.ZERO:
 	set(value):
 		bearing = value
+		print("Unit: ", team, number, ", bearing: ", bearing)
 		if bearing != Vector2i.ZERO:
 			facing = bearing
-
 
 var grid_size: int = 16
 
@@ -42,9 +42,11 @@ func set_starting(_pos: Vector2i, _facing: Vector2i, _number: int, _team: int):
 	number = _number
 	team = _team
 
-# next_move returns where 
 func next_pos() -> Vector2i:
 	return pos + bearing
+
+func execute_move() -> void:
+	pos = next_pos()
 
 func redraw_arrow():
 	$Arrow.rotation = PI * (number-1) / 2

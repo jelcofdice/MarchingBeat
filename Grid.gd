@@ -3,22 +3,23 @@ class_name Grid extends Node
 @export var size := Vector2i(11, 7)
 @export var tile_size := 24 # Assume square tiles
 
+enum _status {IDLE, PENDING, BLOCKED, ACCEPTED}
+
 var top_left := Vector2i(0, 0)
 var bottom_right := size
 var units: Array[Unit]
-var pending_moves: Array[Unit] # unit
-var confirmed_moves: Dictionary # unit -> position
 
-enum _status {PENDING, BLOCKED, MOVED}
-
-class _Move:
-	var unit: Unit
-	var next: Vector2i
-	var status: _status
+var move_statuses: Dictionary # unit -> _status
+var desired_moves: Array[Vector2i]
+var contests: Array[Vector2i] # Locations with contests. Should be drawn on map
 
 func _init() -> void:
 	SignalBus.unit_created.connect(_on_unit_created)
 	SignalBus.beat.connect(_on_beat)
+
+func _ready() -> void:
+	if get_parent() is Object and "size" in get_parent():
+		size = get_parent().size
 
 func _on_unit_created(unit: Unit) -> void:
 	var team := unit.team
@@ -30,31 +31,64 @@ func _on_unit_created(unit: Unit) -> void:
 	units.append(unit)
 
 func _on_beat() -> void:
+	move_statuses = {}
+	contests = []
+	desired_moves = []
 	get_moves()
 	resolve_moves()
 	dispatch_moves()
 
 func get_moves() -> void:
 	for unit in units:
-		if unit.bearing != Vector2i.ZERO:
-			pending_moves.append(unit)
-			print("Unit %s wants to move from %s to %s", str(unit.number), str(unit.pos), str(unit.next_pos))
+		if unit.bearing == Vector2i.ZERO:
+			move_statuses[unit] = _status.IDLE
+		else:
+			move_statuses[unit] = _status.PENDING
+			desired_moves.append(unit.next_pos())
 
 # resolve_moves will contain the logic to determine which moves are legal
 # Units which are blocked will have their desired move returned to current pos
 func resolve_moves():
-	for unit in pending_moves:
-		var new_pos: Vector2i = unit.next_pos()
-		confirmed_moves[unit] = new_pos.clamp(top_left, bottom_right)
+	var blocked_by_units := []
+
+	# First, determine which moves are contested
+	for move in desired_moves:
+		if desired_moves.count(move) > 1 and move not in contests:
+			contests.append(move)
+
+	# TODO: Determine which locations are blocked by static objects
+	# Set these to BLOCKED immediately so they will be counted in the next pass
+
+	# TODO: Special handling of case of units running through each other
+
+	# Now we can mark all non-moving units as blocking
+	for unit in move_statuses:
+		if move_statuses[unit] in [_status.IDLE, _status.BLOCKED]:
+			blocked_by_units.append(unit.pos)
+
+	# And finally accept all moves not blocked by temporaries
+	for unit: Unit in move_statuses:
+		if move_statuses[unit] == _status.PENDING:
+			var desired := unit.next_pos()
+			if desired in contests:
+				print("Unit {team}, {number} blocked by CONTEST at {desired}".format({"team": unit.team, "number": unit.number, "desired": desired}))
+				move_statuses[unit] = _status.BLOCKED
+			elif desired in blocked_by_units:
+				print("Unit {team}, {number} blocked by STATIONARY UNIT at {desired}".format({"team": unit.team, "number": unit.number, "desired": desired}))
+				move_statuses[unit] = _status.BLOCKED
+			else:
+				move_statuses[unit] = _status.ACCEPTED
+
+	# There's edge cases where the above logic will make mistakes, but it's
+	# good enough for initial testing
+	# TODO: Add unit tests including tricky situations
 
 func dispatch_moves():
-	for unit in confirmed_moves:
-		var new_pos = confirmed_moves[unit]
-		if new_pos == unit.pos:
+	for unit in move_statuses:
+		if move_statuses[unit] == _status.ACCEPTED:
+			unit.execute_move()
+		elif move_statuses[unit] == _status.BLOCKED:
 			unit.bearing = Vector2i.ZERO
-		else:
-			unit.pos = new_pos
-	confirmed_moves = {}
 
 # "pos" means location in grid index.
 # coordintaes means pixel coordinates.

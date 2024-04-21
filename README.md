@@ -5,11 +5,11 @@ is more important than APM.
 It's designed to be playable entirely with a dance mat, because more such games should exist.
 
 # Game design overview
-There are 2 rulesets Simple and Complete, where the Simple will be imGplemented first.
+There are 2 rulesets Simple and Complete, where the Simple will be implemented first.
 Feedback from the simple rules will influence design of the complete rules
 
 ## Simple rules
-* There are "cities" on the game board which can be neutral or captured by a player,
+* There are "cities" on the game board which can be neutral or captured by a player.
 * Players get points each turns based on how many cities they have captured.
 * Each player controls 4 units.
 * A player can issue a command to a unit to move in a direction by hitting 2 direction keys on subsequent beats:
