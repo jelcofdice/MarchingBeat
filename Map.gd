@@ -1,7 +1,7 @@
 extends TileMap
 
 @export var size := Vector2i(13, 10)
-@export var tile_size := 24 # Assume square tiles
+@export var tile_size := 32 # Assume square tiles
 
 @onready var packedUnit = preload("res://Unit.tscn")
 
@@ -13,7 +13,6 @@ func _on_beat_timeout():
 	SignalBus.beat.emit()
 
 func _on_beat():
-	#var unit: Unit = Unit.new()
 	var unit: Unit = packedUnit.instantiate()
 	unit.set_starting(Vector2i(randi() % size.x, size.y), Vector2i.UP, randi() % 4, 0)
 	unit.bearing = unit.facing

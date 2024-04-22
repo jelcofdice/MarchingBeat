@@ -22,6 +22,7 @@ signal unit_created
 var pos: Vector2i = Vector2i.ZERO:
 	set(value):
 		pos = value
+
 		redraw_position()
 
 var bearing: Vector2i = Vector2i.ZERO:
@@ -31,10 +32,16 @@ var bearing: Vector2i = Vector2i.ZERO:
 		if bearing != Vector2i.ZERO:
 			facing = bearing
 
-var grid_size: int = 16
+
+var tile_size: int = 16
+var tile_draw_offset: Vector2i = Vector2(8, 8)
 
 func _ready():
 	SignalBus.unit_created.emit(self)
+	var parent := get_parent()
+	if parent is Object and "tile_size" in parent:
+		tile_size = parent.tile_size
+		tile_draw_offset = Vector2(tile_size/2, tile_size/2)
 
 func set_starting(_pos: Vector2i, _facing: Vector2i, _number: int, _team: int):
 	pos = _pos
@@ -58,4 +65,4 @@ func redraw_sprite():
 	rotation = Vector2(facing).angle()
 
 func redraw_position():
-	position = pos * grid_size
+	position = (pos * tile_size) + tile_draw_offset
