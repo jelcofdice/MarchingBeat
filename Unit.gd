@@ -38,16 +38,16 @@ var tile_draw_offset: Vector2i = Vector2(8, 8)
 
 func _ready():
 	SignalBus.unit_created.emit(self)
-	var parent := get_parent()
-	if parent is Object and "tile_size" in parent:
-		tile_size = parent.tile_size
-		tile_draw_offset = Vector2(tile_size/2, tile_size/2)
 
 func set_starting(_pos: Vector2i, _facing: Vector2i, _number: int, _team: int):
 	pos = _pos
 	facing = _facing
 	number = _number
 	team = _team
+
+func configure(_tile_size: int):
+	tile_size = _tile_size
+	tile_draw_offset = Vector2(tile_size/2, tile_size/2)
 
 func next_pos() -> Vector2i:
 	return pos + bearing
