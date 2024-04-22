@@ -1,13 +1,12 @@
 class_name Grid extends Node
 
 @export var size := Vector2i(11, 7)
-@export var tile_size := 24 # Assume square tiles
 
 enum _status {IDLE, PENDING, BLOCKED, ACCEPTED}
 
 var top_left := Vector2i(0, 0)
 var bottom_right := size
-var units: Array[Unit]
+var units: Array[Unit] = []
 
 var move_statuses: Dictionary # unit -> _status
 var desired_moves: Array[Vector2i]
@@ -16,10 +15,6 @@ var contests: Array[Vector2i] # Locations with contests. Should be drawn on map
 func _init() -> void:
 	SignalBus.unit_created.connect(_on_unit_created)
 	SignalBus.beat.connect(_on_beat)
-
-func _ready() -> void:
-	if get_parent() is Object and "size" in get_parent():
-		size = get_parent().size
 
 func _on_unit_created(unit: Unit) -> void:
 	var team := unit.team
@@ -89,8 +84,3 @@ func dispatch_moves():
 			unit.execute_move()
 		elif move_statuses[unit] == _status.BLOCKED:
 			unit.bearing = Vector2i.ZERO
-
-# "pos" means location in grid index.
-# coordintaes means pixel coordinates.
-func pos_to_coordinates(loc: Vector2i) -> Vector2i:
-	return loc * tile_size

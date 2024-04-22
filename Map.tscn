@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://3pcplaqwxkw8"]
+[gd_scene load_steps=5 format=3 uid="uid://3pcplaqwxkw8"]
 
 [ext_resource type="TileSet" uid="uid://b5ua2hbocd64y" path="res://maps/terrain_4_tiles.tres" id="1_gqfr5"]
 [ext_resource type="Script" path="res://Map.gd" id="2_t8eev"]
 [ext_resource type="Script" path="res://Grid.gd" id="3_ig4cb"]
+[ext_resource type="Texture2D" uid="uid://btjc055as2tnm" path="res://art/ui_sprites/tile_outline_32.png" id="4_xxk6c"]
 
 [node name="Map" type="TileMap" groups=["units"]]
 tile_set = ExtResource("1_gqfr5")
@@ -15,5 +16,12 @@ autostart = true
 
 [node name="Grid" type="Node" parent="."]
 script = ExtResource("3_ig4cb")
+size = Vector2i(13, 10)
+
+[node name="GridOutline" type="TextureRect" parent="."]
+offset_right = 416.0
+offset_bottom = 320.0
+texture = ExtResource("4_xxk6c")
+stretch_mode = 1
 
 [connection signal="timeout" from="Beat" to="." method="_on_beat_timeout"]
