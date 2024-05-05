@@ -10,13 +10,13 @@ var bottom_right: Vector2i:
 		return top_left + size
 
 var units: Array[Unit] = []
-
 var move_statuses: Dictionary # unit -> _status
 var desired_moves: Array[Vector2i]
 var contests: Array[Vector2i] # Locations with contests. Should be drawn on map
 
 func _init() -> void:
 	SignalBus.unit_created.connect(_on_unit_created)
+	SignalBus.unit_deleted.connect(_on_unit_deleted)
 	SignalBus.beat.connect(_on_beat)
 
 func _on_unit_created(unit: Unit) -> void:
@@ -28,6 +28,13 @@ func _on_unit_created(unit: Unit) -> void:
 	print("Adding unit to grid: {team}, {number}".format({"team": team, "number": number}))
 	units.append(unit)
 
+
+func _on_unit_deleted(unit: Unit) -> void:
+	if unit in units:
+		units.erase(unit)
+	else:
+		push_warning("Failted to delete unit: Unit not found in grid: {team}, {number}".format({"team": unit.team, "number": unit.number}))
+
 func _on_beat() -> void:
 	move_statuses = {}
 	contests = []
@@ -37,7 +44,7 @@ func _on_beat() -> void:
 	dispatch_moves()
 
 func get_moves() -> void:
-	for unit in units:
+	for unit: Unit in units:
 		if unit.bearing == Vector2i.ZERO:
 			move_statuses[unit] = _status.IDLE
 		else:

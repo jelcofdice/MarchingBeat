@@ -31,7 +31,7 @@ func _ready():
 func set_starting(_pos: Vector2i, _facing: Vector2i, _number: int, _team: int):
 	pos = _pos
 	facing = _facing
-	number = _number
+	number = _number 
 	team = _team
 
 func configure(_tile_size: int):
