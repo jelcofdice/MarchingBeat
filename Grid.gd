@@ -64,7 +64,11 @@ func resolve_moves():
 
 		# TODO: Units blocked by terrain
 
-	# TODO: Special handling of case of units running through each other
+		# Special case: If two units are about to walk through each other, block them both
+		for unit2 in move_statuses:
+			if unit != unit2 and desired == unit2.pos and unit2.next_pos() == unit.pos:
+				move_statuses[unit] = _status.BLOCKED
+
 
 	# Now we can mark all non-moving units as blocking
 	for unit in move_statuses:
