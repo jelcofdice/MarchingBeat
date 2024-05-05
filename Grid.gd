@@ -53,6 +53,7 @@ func resolve_moves():
 	for move in desired_moves:
 		if desired_moves.count(move) > 1 and move not in contests:
 			contests.append(move)
+			SignalBus.new_contest.emit(move)
 	
 	# Second, determine which moves are blocked by stationary objects
 

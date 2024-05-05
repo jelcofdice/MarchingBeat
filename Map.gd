@@ -4,9 +4,11 @@ extends TileMap
 @export var tile_size := 32 # Assume square tiles
 
 @onready var packedUnit = preload("res://Unit.tscn")
+@onready var packedContest = preload("res://Contest.tscn")
 
 func _ready():
 	SignalBus.beat.connect(_on_beat)
+	SignalBus.new_contest.connect(_on_new_contest)
 	get_viewport().size = size * tile_size
 	_set_init_state()
 
@@ -27,6 +29,7 @@ func _on_beat():
 	add_child(unit)
 
 func _set_init_state():
+	# Test case: Units trying to pass through each other
 	var unit: Unit = packedUnit.instantiate()
 	unit.configure(tile_size)
 	unit.set_starting(Vector2i(2, 0), Vector2i.RIGHT, randi() % 4, 0)
@@ -38,3 +41,27 @@ func _set_init_state():
 	unit.set_starting(Vector2i(9, 0), Vector2i.LEFT, randi() % 4, 1)
 	unit.bearing = unit.facing
 	add_child(unit)
+
+	# Test case: Units creating a contest
+	unit = packedUnit.instantiate()
+	unit.configure(tile_size)
+	unit.set_starting(Vector2i(4, 1), Vector2i.RIGHT, randi() % 4, 0)
+	unit.bearing = unit.facing
+	add_child(unit)
+
+	unit = packedUnit.instantiate()
+	unit.configure(tile_size)
+	unit.set_starting(Vector2i(8, 1), Vector2i.LEFT, randi() % 4, 1)
+	unit.bearing = unit.facing
+	add_child(unit)
+
+	var contest: Contest = packedContest.instantiate()
+	contest.configure(tile_size)
+	contest.pos = Vector2i(6, 5)
+	add_child(contest)
+
+func _on_new_contest(pos: Vector2i):
+	var contest: Contest = packedContest.instantiate()
+	contest.configure(tile_size)
+	contest.pos = pos
+	add_child(contest)

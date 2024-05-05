@@ -22,7 +22,6 @@ signal unit_created
 var pos: Vector2i = Vector2i.ZERO:
 	set(value):
 		pos = value
-
 		redraw_position()
 
 var bearing: Vector2i = Vector2i.ZERO:
