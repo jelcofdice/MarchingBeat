@@ -5,7 +5,10 @@ class_name Grid extends Node
 enum _status {IDLE, PENDING, BLOCKED, ACCEPTED}
 
 var top_left := Vector2i(0, 0)
-var bottom_right := size
+var bottom_right: Vector2i:
+	get:
+		return top_left + size
+
 var units: Array[Unit] = []
 
 var move_statuses: Dictionary # unit -> _status
@@ -50,9 +53,16 @@ func resolve_moves():
 	for move in desired_moves:
 		if desired_moves.count(move) > 1 and move not in contests:
 			contests.append(move)
+	
+	# Second, determine which moves are blocked by stationary objects
 
-	# TODO: Determine which locations are blocked by static objects
-	# Set these to BLOCKED immediately so they will be counted in the next pass
+	for unit in move_statuses:
+		var desired = unit.next_pos()
+		if not Rect2(top_left, bottom_right).has_point(desired):
+			# We don't change their bearing etc here, that's done in dispatch_moves
+			move_statuses[unit] = _status.BLOCKED
+
+		# TODO: Units blocked by terrain
 
 	# TODO: Special handling of case of units running through each other
 
