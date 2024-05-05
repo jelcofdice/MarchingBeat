@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cdjqt0nr6k84m" path="res://art/unit_sprites/jeep_decal.png" id="4_vp868"]
 
 [node name="Unit" type="Sprite2D"]
-z_index = 2
+z_index = 4
 texture = ExtResource("1_ocvf6")
 script = ExtResource("2_myy07")
 

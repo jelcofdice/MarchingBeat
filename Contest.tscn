@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://h7bubxefi85a" path="res://art/object_sprites/conflict.png" id="1_td7tf"]
 [ext_resource type="Script" path="res://Contest.gd" id="2_mu4jb"]
 
-[node name="GridSprite" type="Sprite2D"]
+[node name="Contest" type="Sprite2D"]
+z_index = 6
 texture = ExtResource("1_td7tf")
 script = ExtResource("2_mu4jb")

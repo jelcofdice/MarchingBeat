@@ -43,6 +43,7 @@ func next_pos() -> Vector2i:
 
 func execute_move() -> void:
 	pos = next_pos()
+	SignalBus.unit_moved.emit(self)
 
 func redraw_arrow():
 	$Arrow.rotation = PI * (number-1) / 2
@@ -52,4 +53,3 @@ func redraw_decal():
 
 func redraw_sprite():
 	rotation = Vector2(facing).angle()
-
