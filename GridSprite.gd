@@ -5,8 +5,8 @@ class_name GridSprite extends Sprite2D
 		pos = value
 		redraw_position()
 
-var tile_size: int = 16
-var tile_draw_offset: Vector2i = Vector2(8, 8)
+var tile_size: int = 32
+var tile_draw_offset: Vector2i = Vector2(16, 16)
 
 func redraw_position():
 	position = (pos * tile_size) + tile_draw_offset

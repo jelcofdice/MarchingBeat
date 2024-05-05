@@ -1,6 +1,5 @@
 @tool
-class_name Unit
-extends Sprite2D
+class_name Unit extends GridSprite
 
 signal unit_created
 
@@ -19,21 +18,12 @@ signal unit_created
 		facing = value
 		redraw_sprite()
 
-var pos: Vector2i = Vector2i.ZERO:
-	set(value):
-		pos = value
-		redraw_position()
-
 var bearing: Vector2i = Vector2i.ZERO:
 	set(value):
 		bearing = value
 		print("Unit: ", team, number, ", bearing: ", bearing)
 		if bearing != Vector2i.ZERO:
 			facing = bearing
-
-
-var tile_size: int = 16
-var tile_draw_offset: Vector2i = Vector2(8, 8)
 
 func _ready():
 	SignalBus.unit_created.emit(self)
@@ -63,5 +53,3 @@ func redraw_decal():
 func redraw_sprite():
 	rotation = Vector2(facing).angle()
 
-func redraw_position():
-	position = (pos * tile_size) + tile_draw_offset
