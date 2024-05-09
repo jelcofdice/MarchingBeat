@@ -71,7 +71,7 @@ func _clear_word():
 
 func _send_word():
     print("Controller ", team, " sending word: ", _word)
-    SignalBus.send_order.emit(team, _word[0], Constants.number_direction_map[_word[1]])
+    SignalBus.word_sent.emit(team, _word[0], Constants.number_direction_map[_word[1]])
     _redraw_arrows()
 
 func _redraw_arrows():

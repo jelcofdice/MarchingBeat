@@ -14,4 +14,4 @@ signal city_captured # (city: City)
 signal unit_moved # (unit: Unit)
 
 # Input signals
-signal send_order # (team: int, unit.number: int, direction: Vector2i)
+signal word_sent # (team: int, unit.number: int, direction: Vector2i)
