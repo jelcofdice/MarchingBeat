@@ -17,7 +17,7 @@ autostart = true
 
 [node name="Grid" type="Node" parent="."]
 script = ExtResource("3_ig4cb")
-size = Vector2i(13, 10)
+grid_size = Vector2i(13, 10)
 
 [node name="GridOutline" type="TextureRect" parent="."]
 offset_right = 416.0

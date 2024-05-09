@@ -1,6 +1,6 @@
 {
     "max_players": 2,
-    "size": [
+    "grid_size": [
         13,
         10
     ],

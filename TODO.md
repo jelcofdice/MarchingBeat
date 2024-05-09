@@ -1,5 +1,4 @@
 # Milestone 1: Functionally playable prototype
-- Rename "size" parameter (grid size) for disambiguation
 - Add audio beat indicator
 - Add visual beat indicator
     - Refactor UI components to a single root UI scene

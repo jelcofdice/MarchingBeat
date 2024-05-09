@@ -1,13 +1,13 @@
 class_name Grid extends Node
 
-@export var size := Vector2i(11, 7)
+@export var grid_size := Vector2i(11, 7)
 
 enum _status {IDLE, PENDING, BLOCKED, ACCEPTED}
 
 var top_left := Vector2i(0, 0)
 var bottom_right: Vector2i:
 	get:
-		return top_left + size
+		return top_left + grid_size
 
 var units: Array[Unit] = []
 

@@ -1,6 +1,6 @@
 extends TileMap
 
-@export var size := Vector2i(13, 10)
+@export var grid_size := Vector2i(13, 10)
 # TODO: Make tilemap and sprites scale with tile_size
 @export var tile_size := 32 # Assume square tiles
 
@@ -29,8 +29,8 @@ func _on_half_beat_timeout():
 
 func _on_half_beat():
 	if demo:
-		add_unit(Vector2i(randi() % size.x, size.y-1), Vector2i.UP, randi() % 4, 0)
-		add_unit(Vector2i(0, randi() % size.y), Vector2i.RIGHT, randi() % 4, 1)
+		add_unit(Vector2i(randi() % grid_size.x, grid_size.y-1), Vector2i.UP, randi() % 4, 0)
+		add_unit(Vector2i(0, randi() % grid_size.y), Vector2i.RIGHT, randi() % 4, 1)
 
 # When spacebar is pressed, load a new map
 func _process(_delta):
@@ -80,7 +80,7 @@ func load_map(level_name: String):
 	# I'm just going to assume it's ok, no error handling yet...
 	json.parse(json_text)
 	var data = json.data
-	size = Vector2i(data["size"][0], data["size"][1])
+	grid_size = Vector2i(data["grid_size"][0], data["grid_size"][1])
 
 	# Process the loaded data
 	var i_player: int = 0
@@ -99,8 +99,8 @@ func load_map(level_name: String):
 	resize_window()
 
 func resize_window():
-	$GridOutline.size = size * tile_size
-	$Grid.size = size
-	var viewport_size: Vector2i = Vector2i(size.x, size.y+1) * tile_size
+	$GridOutline.size = grid_size * tile_size
+	$Grid.grid_size = grid_size
+	var viewport_size: Vector2i = Vector2i(grid_size.x, grid_size.y+1) * tile_size
 	get_viewport().size = viewport_size
 	$UIRoot.size = viewport_size
