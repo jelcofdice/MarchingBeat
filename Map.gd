@@ -7,19 +7,27 @@ extends TileMap
 @onready var packedUnit = preload("res://Unit.tscn")
 @onready var packedContest = preload("res://Contest.tscn")
 @onready var packedCity = preload("res://City.tscn")
+@onready var packedController = preload("res://controller.tscn")
 
 var demo: bool = true
 
 func _ready():
-	SignalBus.beat.connect(_on_beat)
+	SignalBus.half_beat.connect(_on_half_beat)
 	SignalBus.new_contest.connect(_on_new_contest)
 	_set_init_state()
 	resize_window()
 
+	# FIXME: Don't block main thread like this, this is only for testing
+	await get_tree().create_timer(0.5).timeout
+	$HalfBeat.start(1.0)
+
 func _on_beat_timeout():
 	SignalBus.beat.emit()
 
-func _on_beat():
+func _on_half_beat_timeout():
+	SignalBus.half_beat.emit()
+
+func _on_half_beat():
 	if demo:
 		add_unit(Vector2i(randi() % size.x, size.y-1), Vector2i.UP, randi() % 4, 0)
 		add_unit(Vector2i(0, randi() % size.y), Vector2i.RIGHT, randi() % 4, 1)
@@ -30,28 +38,8 @@ func _process(_delta):
 		load_map("2player.json")
 		demo = false
 
-
 func _set_init_state():
 	load_map("demo.json")
-	# # Test case: Units trying to pass through each other
-	# add_unit(Vector2i(2, 0), Vector2i.RIGHT, randi() % 4, 0)
-	# add_unit(Vector2i(9, 0), Vector2i.LEFT, randi() % 4, 1)
-
-	# # Test case: Units creating a conflict
-	# add_unit(Vector2i(4, 1), Vector2i.RIGHT, randi() % 4, 0)
-	# add_unit(Vector2i(8, 1), Vector2i.LEFT, randi() % 4, 1)
-
-	# # Bug showcase: A unit can pass through a unit which got blocked by contest this turn
-	# add_unit(Vector2i(6, 4), Vector2i.RIGHT, 0, 0)
-	# add_unit(Vector2i(8, 6), Vector2i.UP, 0, 1)
-	# add_unit(Vector2i(5, 4), Vector2i.RIGHT, 1, 0)
-	# add_unit(Vector2i(4, 4), Vector2i.RIGHT, 2, 0)
-
-	# # Test: Add some cities that can be captured
-	# add_city(Vector2i(7,0))
-	# add_city(Vector2i(6,3))
-	# add_city(Vector2i(2,3))
-	# add_city(Vector2i(3,1))
 
 func _on_new_contest(pos: Vector2i):
 	var contest: Contest = packedContest.instantiate()
@@ -87,11 +75,10 @@ func load_map(level_name: String):
 	var file = FileAccess.open(path, FileAccess.READ)
 	var json_text = file.get_as_text()
 	file.close()
-	
-	# Parse the JSON data
+
 	var json = JSON.new()
 	# I'm just going to assume it's ok, no error handling yet...
-	json.parse(json_text) # var error = json.parse(json_text)
+	json.parse(json_text)
 	var data = json.data
 	size = Vector2i(data["size"][0], data["size"][1])
 
@@ -109,10 +96,11 @@ func load_map(level_name: String):
 
 	for city in data["nodes"]:
 		add_city(Vector2i(city[0], city[1]))
-	
 	resize_window()
 
 func resize_window():
 	$GridOutline.size = size * tile_size
 	$Grid.size = size
-	get_viewport().size = size * tile_size
+	var viewport_size: Vector2i = Vector2i(size.x, size.y+1) * tile_size
+	get_viewport().size = viewport_size
+	$UIRoot.size = viewport_size

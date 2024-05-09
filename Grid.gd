@@ -28,7 +28,6 @@ func _on_unit_created(unit: Unit) -> void:
 	for u: Unit in units:
 		if u.team == team and u.number == number:
 			push_warning("Duplicate unit created: {team}, {number}".format({"team": team, "number": number}))
-	print("Adding unit to grid: {team}, {number}".format({"team": team, "number": number}))
 	units.append(unit)
 
 func _on_unit_deleted(unit: Unit) -> void:

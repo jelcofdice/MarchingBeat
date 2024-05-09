@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://d1tn8vg6brtte" path="res://art/unit_sprites/jeep.png" id="1_ocvf6"]
 [ext_resource type="Script" path="res://Unit.gd" id="2_myy07"]
-[ext_resource type="Texture2D" uid="uid://dp38dpqool4ek" path="res://art/ui_sprites/arrow_tiny_centered_right.png" id="3_wgdiv"]
+[ext_resource type="Texture2D" uid="uid://dp38dpqool4ek" path="res://art/ui_sprites/arrow_tiny_centered_up.png" id="3_wgdiv"]
 [ext_resource type="Texture2D" uid="uid://cdjqt0nr6k84m" path="res://art/unit_sprites/jeep_decal.png" id="4_vp868"]
 
 [node name="Unit" type="Sprite2D"]
@@ -13,7 +13,6 @@ script = ExtResource("2_myy07")
 [node name="Arrow" type="Sprite2D" parent="."]
 z_index = 1
 position = Vector2(4.76837e-07, 1.19209e-07)
-rotation = -1.5708
 texture = ExtResource("3_wgdiv")
 
 [node name="Decal" type="Sprite2D" parent="."]

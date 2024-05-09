@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://yr8ds7cusf4m"]
+
+[ext_resource type="Script" path="res://controller.gd" id="1_6rmr3"]
+[ext_resource type="Texture2D" uid="uid://41o764wwarjg" path="res://art/ui_sprites/arrow_small_up.png" id="2_8cqgt"]
+
+[node name="Controller" type="ColorRect"]
+custom_minimum_size = Vector2(128, 32)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+color = Color(0.886275, 0.403922, 0.32549, 1)
+script = ExtResource("1_6rmr3")
+
+[node name="Arrow1" type="Sprite2D" parent="."]
+position = Vector2(16, 16)
+texture = ExtResource("2_8cqgt")
+
+[node name="Arrow2" type="Sprite2D" parent="."]
+position = Vector2(48, 16)
+texture = ExtResource("2_8cqgt")
+
+[node name="Arrow3" type="Sprite2D" parent="."]
+position = Vector2(80, 16)
+texture = ExtResource("2_8cqgt")
+
+[node name="Arrow4" type="Sprite2D" parent="."]
+position = Vector2(112, 16)
+texture = ExtResource("2_8cqgt")
