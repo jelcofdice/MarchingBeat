@@ -103,4 +103,4 @@ func resize_window():
 	$Grid.grid_size = grid_size
 	var viewport_size: Vector2i = Vector2i(grid_size.x, grid_size.y+1) * tile_size
 	get_viewport().size = viewport_size
-	$UIRoot.size = viewport_size
+	$HUD.size = viewport_size

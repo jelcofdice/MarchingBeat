@@ -1,10 +1,7 @@
 # Milestone 1: Functionally playable prototype
-- Add audio beat indicator
-- Add visual beat indicator
-    - Refactor UI components to a single root UI scene
+- Add highlighting to "selected" unit
 - Add scorekeeping
 - Make units stop when capturing a city
 - Add proper start/restart buttons
     - Add game start countdown
 - Add tilemap background for 2player map
-- Add highlighting to "selected" unit
