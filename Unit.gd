@@ -45,10 +45,6 @@ func configure(_tile_size: int):
 func next_pos() -> Vector2i:
 	return pos + bearing
 
-func execute_move() -> void:
-	pos = next_pos()
-	SignalBus.unit_moved.emit(self)
-
 func redraw_arrow():
 	# The arrow rotation must be unaffected by unit rotation
 	$Arrow.rotation = (number) * (PI / 2) - rotation

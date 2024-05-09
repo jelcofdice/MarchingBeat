@@ -128,7 +128,8 @@ func find_contests() -> int:
 
 func dispatch_moves():
 	for unit in pending:
-		unit.execute_move()
+		unit.pos = unit.next_pos()
+		SignalBus.unit_moved.emit(unit)
 	for unit in blocked:
 		if unit.bearing != Vector2i.ZERO:
 			unit.bearing = Vector2i.ZERO

@@ -20,3 +20,4 @@ func redraw_decal():
 func _on_unit_moved(unit: Unit):
 	if unit.pos == pos:
 		team = unit.team
+		unit.bearing = Vector2i.ZERO
