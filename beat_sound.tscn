@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch463wwyyf7r0"]
+
+[ext_resource type="AudioStream" uid="uid://bq5uhf8a30dlj" path="res://audio/beat.ogg" id="1_1i7u8"]
+[ext_resource type="Script" path="res://beat_sound.gd" id="2_enxkx"]
+
+[node name="BeatSound" type="AudioStreamPlayer"]
+stream = ExtResource("1_1i7u8")
+max_polyphony = 2
+script = ExtResource("2_enxkx")

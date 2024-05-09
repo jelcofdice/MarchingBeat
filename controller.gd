@@ -75,15 +75,12 @@ func _send_word():
     _redraw_arrows()
 
 func _redraw_arrows():
-    print("Redrawing ", len(_arrows), " arrows")
     for i in range(len(_arrows)):
         if len(_word) > i:
             _arrows[i].modulate.a = 1
             _arrows[i].rotation = _word[i] * PI/2
-            print("Setting arrow to visible")
         else:
             _arrows[i].modulate.a = 0
-            print("Setting arrow to hidden")
 
 func set_tile_size(new_tile_size: int):
     # Update size of display area and all children by setting new pixel size of tiles

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://3pcplaqwxkw8"]
+[gd_scene load_steps=7 format=3 uid="uid://3pcplaqwxkw8"]
 
 [ext_resource type="TileSet" uid="uid://b5ua2hbocd64y" path="res://maps/terrain_4_tiles.tres" id="1_gqfr5"]
 [ext_resource type="Script" path="res://Map.gd" id="2_t8eev"]
 [ext_resource type="Script" path="res://Grid.gd" id="3_ig4cb"]
 [ext_resource type="Texture2D" uid="uid://btjc055as2tnm" path="res://art/ui_sprites/tile_outline_32.png" id="4_xxk6c"]
 [ext_resource type="PackedScene" uid="uid://yr8ds7cusf4m" path="res://controller.tscn" id="5_xi3xu"]
+[ext_resource type="PackedScene" uid="uid://ch463wwyyf7r0" path="res://beat_sound.tscn" id="6_8ygd2"]
 
 [node name="Map" type="TileMap" groups=["units"]]
 tile_set = ExtResource("1_gqfr5")
@@ -62,6 +63,8 @@ offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
 team = 1
+
+[node name="BeatSound" parent="." instance=ExtResource("6_8ygd2")]
 
 [connection signal="timeout" from="Beat" to="." method="_on_beat_timeout"]
 [connection signal="timeout" from="HalfBeat" to="." method="_on_half_beat_timeout"]

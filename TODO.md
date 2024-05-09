@@ -7,3 +7,4 @@
 - Add proper start/restart buttons
     - Add game start countdown
 - Add tilemap background for 2player map
+- Add highlighting to "selected" unit
