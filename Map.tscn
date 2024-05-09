@@ -46,7 +46,7 @@ offset_right = 128.0
 offset_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 0
-team = 1
+color = Color(0.392157, 0.392157, 0.823529, 1)
 
 [node name="Controller2" parent="UIRoot" instance=ExtResource("5_xi3xu")]
 layout_mode = 1
@@ -61,6 +61,7 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
+team = 1
 
 [connection signal="timeout" from="Beat" to="." method="_on_beat_timeout"]
 [connection signal="timeout" from="HalfBeat" to="." method="_on_half_beat_timeout"]

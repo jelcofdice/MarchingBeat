@@ -93,5 +93,5 @@ func set_tile_size(new_tile_size: int):
     custom_minimum_size = Vector2(new_tile_size * 4, new_tile_size)
     for arrow in _arrows:
         arrow.size = Vector2(new_tile_size, new_tile_size)
-        arrow.position = Vector2(i * new_tile_size + new_tile_size/2, new_tile_size/2)
+        arrow.position = Vector2(i * new_tile_size + new_tile_size/floor(2), new_tile_size/floor(2))
         i += 1
