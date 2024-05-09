@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://3pcplaqwxkw8"]
+[gd_scene load_steps=6 format=3 uid="uid://3pcplaqwxkw8"]
 
 [ext_resource type="TileSet" uid="uid://b5ua2hbocd64y" path="res://maps/terrain_4_tiles.tres" id="1_gqfr5"]
 [ext_resource type="Script" path="res://Map.gd" id="2_t8eev"]
 [ext_resource type="Script" path="res://Grid.gd" id="3_ig4cb"]
 [ext_resource type="Texture2D" uid="uid://btjc055as2tnm" path="res://art/ui_sprites/tile_outline_32.png" id="4_xxk6c"]
+[ext_resource type="PackedScene" uid="uid://yr8ds7cusf4m" path="res://controller.tscn" id="5_xi3xu"]
 
 [node name="Map" type="TileMap" groups=["units"]]
 tile_set = ExtResource("1_gqfr5")
@@ -25,6 +26,41 @@ texture = ExtResource("4_xxk6c")
 stretch_mode = 1
 
 [node name="HalfBeat" type="Timer" parent="."]
+
+[node name="UIRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 417.0
+offset_bottom = 319.0
+
+[node name="Controller1" parent="UIRoot" instance=ExtResource("5_xi3xu")]
+layout_mode = 1
+anchors_preset = 2
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -32.0
+offset_right = 128.0
+offset_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 0
+team = 1
+
+[node name="Controller2" parent="UIRoot" instance=ExtResource("5_xi3xu")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -32.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [connection signal="timeout" from="Beat" to="." method="_on_beat_timeout"]
 [connection signal="timeout" from="HalfBeat" to="." method="_on_half_beat_timeout"]

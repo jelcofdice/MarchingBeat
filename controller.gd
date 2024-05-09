@@ -1,6 +1,6 @@
 class_name Controller extends ColorRect
 
-@export var team: int:
+@export var team: int = 0:
     set(value):
         team = value
         inputs = Constants.team_control_inputs[team]
@@ -16,9 +16,10 @@ class_name Controller extends ColorRect
 
 var inputs: Dictionary
 var is_listening: bool = true
-var sent_word: bool = false
+var queue_send_word: bool = false
+var sent_word: bool = false # true when there's a complete word we've already sent
 
-var _arrows: Array[TextureRect]
+var _arrows: Array[Sprite2D]
 
 var color_base: Color
 var color_highlight: Color
@@ -26,9 +27,11 @@ var color_highlight: Color
 func _ready():
     SignalBus.half_beat.connect(_on_half_beat)
     SignalBus.beat.connect(_on_beat)
-    team = 0
     for arrow in [$Arrow1, $Arrow2, $Arrow3, $Arrow4]:
         _arrows.append(arrow)
+    
+    team = team
+    color = color_base
 
 func _process(_delta):
     if is_listening:
@@ -37,40 +40,50 @@ func _process(_delta):
                 register_input(inputs[input])
                 break
 
+func _on_half_beat():
+    is_listening = true
+    if queue_send_word:
+        _send_word()
+        sent_word = true
+        queue_send_word = false
+
+func _on_beat():
+    if sent_word:
+        _clear_word()
+
 func register_input(letter: int):
+    if sent_word:
+        _clear_word()
+
     is_listening = false
-    if len(_word) == 2:
-        _word = []
     _word.append(letter)
     if len(_word) == 2:
         color = color_highlight
+        queue_send_word = true
     print("Word: ", _word)
     _redraw_arrows()
 
-func _redraw_arrows():
-    for i in range(len(_arrows)):
-        if len(_word) > i:
-            _arrows[i].modulate.a = 1
-            _arrows[i].rotation = _word[i] * PI/2
-        else:
-            _arrows[i].modulate.a = 0
-
-func _on_half_beat():
-    is_listening = true
-    if len(_word) == 2:
-        if not sent_word:
-            _send_word()
-            sent_word = true
-    else:
-        sent_word = false
-
-func _on_beat():
+func _clear_word():
     color = color_base
+    _word = []
+    sent_word = false
+    _redraw_arrows()
 
 func _send_word():
     print("Controller ", team, " sending word: ", _word)
     SignalBus.send_order.emit(team, _word[0], Constants.number_direction_map[_word[1]])
     _redraw_arrows()
+
+func _redraw_arrows():
+    print("Redrawing ", len(_arrows), " arrows")
+    for i in range(len(_arrows)):
+        if len(_word) > i:
+            _arrows[i].modulate.a = 1
+            _arrows[i].rotation = _word[i] * PI/2
+            print("Setting arrow to visible")
+        else:
+            _arrows[i].modulate.a = 0
+            print("Setting arrow to hidden")
 
 func set_tile_size(new_tile_size: int):
     # Update size of display area and all children by setting new pixel size of tiles
