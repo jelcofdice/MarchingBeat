@@ -1,4 +1,3 @@
-@tool
 class_name Unit extends GridSprite
 
 signal unit_created
@@ -21,7 +20,6 @@ signal unit_created
 var bearing: Vector2i = Vector2i.ZERO:
 	set(value):
 		bearing = value
-		print("Unit: ", team, number, ", bearing: ", bearing)
 		if bearing != Vector2i.ZERO:
 			facing = bearing
 

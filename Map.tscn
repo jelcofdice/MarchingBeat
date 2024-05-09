@@ -24,4 +24,7 @@ offset_bottom = 320.0
 texture = ExtResource("4_xxk6c")
 stretch_mode = 1
 
+[node name="HalfBeat" type="Timer" parent="."]
+
 [connection signal="timeout" from="Beat" to="." method="_on_beat_timeout"]
+[connection signal="timeout" from="HalfBeat" to="." method="_on_half_beat_timeout"]
