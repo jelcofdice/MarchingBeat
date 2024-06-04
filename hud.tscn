@@ -25,6 +25,7 @@ offset_right = 128.0
 offset_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 0
+color = Color(0.403922, 0.403922, 0.917647, 1)
 
 [node name="Controller2" parent="." instance=ExtResource("2_kld8o")]
 layout_mode = 1
@@ -39,7 +40,7 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
-color = Color(0.403922, 0.403922, 0.917647, 1)
+color = Color(0.811765, 0.392157, 0.321569, 1)
 team = 1
 
 [node name="BeatIndicatorLeft" type="ColorRect" parent="."]
@@ -68,5 +69,35 @@ grow_horizontal = 2
 grow_vertical = 0
 rotation = 4.71239
 color = Color(0, 0, 0, 1)
+
+[node name="ScoreCard" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 144.0
+offset_top = -32.0
+offset_right = 208.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.403922, 0.403922, 0.917647, 1)
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreCard2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -208.0
+offset_top = -32.0
+offset_right = -144.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.811765, 0.392157, 0.321569, 1)
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="resized" from="." to="." method="_on_resized"]

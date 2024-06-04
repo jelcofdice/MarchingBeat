@@ -10,10 +10,13 @@ extends TileMap
 @onready var packedController = preload("res://controller.tscn")
 
 var demo: bool = true
+var scores: Dictionary = {0: [0, 0], 1: [0, 0]}
+
 
 func _ready():
 	SignalBus.half_beat.connect(_on_half_beat)
 	SignalBus.new_contest.connect(_on_new_contest)
+	SignalBus.post_beat.connect(_on_post_beat)
 	_set_init_state()
 	resize_window()
 
@@ -23,6 +26,7 @@ func _ready():
 
 func _on_beat_timeout():
 	SignalBus.beat.emit()
+	SignalBus.post_beat.emit()
 
 func _on_half_beat_timeout():
 	SignalBus.half_beat.emit()
@@ -46,6 +50,32 @@ func _on_new_contest(pos: Vector2i):
 	contest.configure(tile_size)
 	contest.pos = pos
 	add_child(contest)
+
+func _on_post_beat():
+	calculate_scores()
+	SignalBus.new_scores.emit(scores)
+
+func calculate_scores():
+	# Scoring logic is as follows:
+	# 1. The player with most cities gets 1 point for each city they have more than
+	# the second player
+	# 2. We also track how many "points" are collected if everyone just gets on point
+	# for every city they have
+	# TODO: Implement for more than 2 players
+	var round_scores: Array[int] = [0, 0]
+	for child in get_children():
+		if child is City:
+			var team: int = child.team
+			if team != -1:
+				round_scores[team] += 1
+
+	var sorted_scores: Array[int] = round_scores.duplicate()
+	sorted_scores.sort()
+	var threshold: int = sorted_scores[-2]
+
+	for team in scores:
+		scores[team][0] += round_scores[team] - threshold
+		scores[team][1] += round_scores[team]
 
 func add_unit(pos: Vector2i, facing: Vector2i, number: int, team: int):
 	var unit: Unit = packedUnit.instantiate()
@@ -96,6 +126,11 @@ func load_map(level_name: String):
 
 	for city in data["nodes"]:
 		add_city(Vector2i(city[0], city[1]))
+
+	scores = {}
+	for i in range(i_player):
+		scores[i] = [0, 0]
+
 	resize_window()
 
 func resize_window():

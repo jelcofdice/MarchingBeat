@@ -8,7 +8,7 @@ class_name City extends GridSprite
 		team = value
 		if old != team:
 			redraw_decal()
-			SignalBus.city_captured.emit(self)
+			SignalBus.city_captured.emit(self, old)
 
 func _ready():
 	team = -1
