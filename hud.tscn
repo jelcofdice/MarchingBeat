@@ -12,92 +12,117 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r4i5e")
 
-[node name="Controller" parent="." instance=ExtResource("2_kld8o")]
+[node name="BottomBar" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 2
-anchor_left = 0.0
-anchor_top = 1.0
-anchor_right = 0.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = -32.0
-offset_right = 128.0
-offset_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 0
-color = Color(0.403922, 0.403922, 0.917647, 1)
-
-[node name="Controller2" parent="." instance=ExtResource("2_kld8o")]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -128.0
-offset_top = -32.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 0
-color = Color(0.811765, 0.392157, 0.321569, 1)
-team = 1
+offset_top = -64.0
 
-[node name="BeatIndicatorLeft" type="ColorRect" parent="."]
+[node name="Controller" parent="BottomBar" instance=ExtResource("2_kld8o")]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_right = 32.0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 128.0
 offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 0
-rotation = 3.14159
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_vertical = 0
+color = Color(0.403922, 0.403922, 0.917647, 1)
 
-[node name="BeatIndicatorRight" type="ColorRect" parent="."]
+[node name="ScoreCard" type="Label" parent="BottomBar"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_right = 32.0
-offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 0
-rotation = 4.71239
-color = Color(0, 0, 0, 1)
-
-[node name="ScoreCard" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = -1
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 144.0
 offset_top = -32.0
-offset_right = 208.0
+offset_right = 64.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.403922, 0.403922, 0.917647, 1)
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScoreCard2" type="Label" parent="."]
+[node name="Controller2" parent="BottomBar" instance=ExtResource("2_kld8o")]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -128.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 32.0
+grow_horizontal = 0
+grow_vertical = 1
+color = Color(0.811765, 0.392157, 0.321569, 1)
+team = 1
+
+[node name="ScoreCard2" type="Label" parent="BottomBar"]
+layout_mode = 1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -208.0
+offset_left = -64.0
 offset_top = -32.0
-offset_right = -144.0
+grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.811765, 0.392157, 0.321569, 1)
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="VictoryCondition" type="Label" parent="BottomBar"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.403922, 0.403922, 0.917647, 1)
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VisualBeatIndicator" type="Control" parent="BottomBar"]
+custom_minimum_size = Vector2(64, 32)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+
+[node name="BeatIndicatorLeft" type="ColorRect" parent="BottomBar/VisualBeatIndicator"]
+layout_mode = 1
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="BeatIndicatorRight" type="ColorRect" parent="BottomBar/VisualBeatIndicator"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_bottom = 32.0
+grow_horizontal = 0
+color = Color(0, 0, 0, 1)
 
 [connection signal="resized" from="." to="." method="_on_resized"]

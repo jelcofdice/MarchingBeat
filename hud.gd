@@ -6,6 +6,12 @@ const color_1: Color = Color(0.0, 0.0, 0.0)
 const color_2: Color = Color(1.0, 1.0, 1.0)
 var even: bool = true
 
+@onready var beat_indicator_left: ColorRect = $BottomBar.get_node("VisualBeatIndicator").get_node("BeatIndicatorLeft")
+@onready var beat_indicator_right: ColorRect = $BottomBar.get_node("VisualBeatIndicator").get_node("BeatIndicatorRight")
+@onready var score_cards: Array[Label] = [
+    $BottomBar.get_node("ScoreCard"),
+    $BottomBar.get_node("ScoreCard2")
+]
 
 func _ready():
     SignalBus.beat.connect(_on_beat)
@@ -17,19 +23,19 @@ func _on_victory(winner: int) -> void:
 
 func _on_beat():
     if even:
-        $BeatIndicatorLeft.color = color_1
-        $BeatIndicatorRight.color = color_2
+        beat_indicator_left.color = color_1
+        beat_indicator_right.color = color_2
     else:
-        $BeatIndicatorLeft.color = color_2
-        $BeatIndicatorRight.color = color_1
+        beat_indicator_left.color = color_2
+        beat_indicator_right.color = color_1
     even = !even
 
 func _on_resized():
     pass
 
 func _on_new_scores(scores: Array[Map.PlayerScore_]) -> void:
-    $ScoreCard.text = str(scores[0].marginal) + '(' + str(scores[0].total) + ')'
-    $ScoreCard2.text = str(scores[1].marginal) + '(' + str(scores[1].total) + ')'
+    for i in range(2):
+        score_cards[i].text = str(scores[i].marginal) + '(' + str(scores[i].total) + ')'
 
 func set_tile_size(value: int) -> void:
     tile_size = value
@@ -40,7 +46,7 @@ func set_tile_size(value: int) -> void:
             child.size = tile_size
         elif child is Label: # Scorecards
             child.anchor_offsets.top = -tile_size
-    $ScoreCard.anchor_offsets.left = 4.5 * tile_size
-    $ScoreCard.anchor_offsets.right = 6.5 * tile_size
-    $ScoreCard2.anchor_offset.right = -4.5 * tile_size
-    $ScoreCard2.anchor_offset.left = -6.5 * tile_size
+    score_cards[0].anchor_offsets.left = 4.5 * tile_size
+    score_cards[0].anchor_offsets.right = 6.5 * tile_size
+    score_cards[1].anchor_offset.right = -4.5 * tile_size
+    score_cards[1].anchor_offset.left = -6.5 * tile_size

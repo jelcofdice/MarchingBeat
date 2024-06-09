@@ -161,7 +161,7 @@ func load_map(level_name: String):
 func resize_window():
     $GridOutline.size = grid_size * tile_size
     $Grid.grid_size = grid_size
-    var viewport_size: Vector2i = Vector2i(grid_size.x, grid_size.y+1) * tile_size
+    var viewport_size: Vector2i = Vector2i(grid_size.x, grid_size.y+2) * tile_size
     get_viewport().size = viewport_size
     $HUD.size = viewport_size
 
