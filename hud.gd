@@ -6,6 +6,7 @@ const color_1: Color = Color(0.0, 0.0, 0.0)
 const color_2: Color = Color(1.0, 1.0, 1.0)
 var even: bool = true
 
+
 func _ready():
     SignalBus.beat.connect(_on_beat)
     SignalBus.new_scores.connect(_on_new_scores)
@@ -22,9 +23,9 @@ func _on_beat():
 func _on_resized():
     pass
 
-func _on_new_scores(scores: Dictionary) -> void:
-    $ScoreCard.text = str(scores[0][0]) + '(' + str(scores[0][1]) + ')'
-    $ScoreCard2.text = str(scores[1][0]) + '(' + str(scores[1][1]) + ')'
+func _on_new_scores(scores: Array[Map.PlayerScore_]) -> void:
+    $ScoreCard.text = str(scores[0].marginal) + '(' + str(scores[0].total) + ')'
+    $ScoreCard2.text = str(scores[1].marginal) + '(' + str(scores[1].total) + ')'
 
 func set_tile_size(value: int) -> void:
     tile_size = value

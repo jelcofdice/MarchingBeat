@@ -25,3 +25,9 @@ const number_direction_map = {
 	2: Vector2i.DOWN,
 	3: Vector2i.LEFT,
 }
+const number_direction_map_inverse = {
+	Vector2i.UP: 0,
+	Vector2i.RIGHT: 1,
+	Vector2i.DOWN: 2,
+	Vector2i.LEFT: 3,
+}
