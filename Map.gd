@@ -13,8 +13,8 @@ class_name Map
 var demo: bool = true
 var n_players: int
 var scores: Array[PlayerScore_]
+var victory_condition: int = Constants.victory_margin
 
-# Trailing underscore to avoid conflict with builtin
 class PlayerScore_:
     var marginal: int = 0
     var total: int = 0
@@ -85,6 +85,22 @@ func calculate_scores():
         var marginal: int = max(0, round_scores[i] - threshold)
         scores[i].marginal += marginal
         scores[i].total += round_scores[i]
+
+    _update_victory_condition()
+    _check_victory()
+
+func _update_victory_condition():
+    var sorted_scores: Array[int] = []
+    for i in range(n_players):
+        sorted_scores.append(scores[i].marginal)
+    sorted_scores.sort()
+    var marginal_condition := sorted_scores[-2] + Constants.victory_margin
+    victory_condition = max(Constants.minimum_victory_condition, marginal_condition)
+
+func _check_victory():
+    for i in range(n_players):
+        if scores[i].marginal >= victory_condition:
+            SignalBus.victory.emit(i)
 
 func add_unit(pos: Vector2i, facing: Vector2i, number: int, team: int):
     var unit: Unit = packedUnit.instantiate()

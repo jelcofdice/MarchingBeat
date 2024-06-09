@@ -10,6 +10,10 @@ var even: bool = true
 func _ready():
     SignalBus.beat.connect(_on_beat)
     SignalBus.new_scores.connect(_on_new_scores)
+    SignalBus.victory.connect(_on_victory)
+
+func _on_victory(winner: int) -> void:
+    print('Player ' + str(winner) + ' wins!')
 
 func _on_beat():
     if even:

@@ -19,3 +19,4 @@ signal word_sent # (team: int, unit.number: int, direction: Vector2i)
 
 # Game progress
 signal new_scores # Dictionary[i_team: [relative, absolute]]
+signal victory # (team: int)

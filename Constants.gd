@@ -31,3 +31,5 @@ const number_direction_map_inverse = {
 	Vector2i.DOWN: 2,
 	Vector2i.LEFT: 3,
 }
+const minimum_victory_condition: int = 2
+const victory_margin: int = 1
