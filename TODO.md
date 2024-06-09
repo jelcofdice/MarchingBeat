@@ -8,7 +8,7 @@
 
 ## Current branch todo
 [X] Calculate victory condition
-[/] Extend UI to include two rows below screen so we can print victory condition
+[X] Extend UI to include two rows below screen so we can print victory condition
 [ ] Add a "victory/game_over" screen when score is reached
 [ ] Add logic stop during game over
 [ ] Make game restart with space during game over

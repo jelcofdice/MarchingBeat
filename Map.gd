@@ -12,12 +12,33 @@ class_name Map
 
 var demo: bool = true
 var n_players: int
-var scores: Array[PlayerScore_]
-var victory_condition: int = Constants.victory_margin
+var scores: GameScore
 
 class PlayerScore_:
     var marginal: int = 0
     var total: int = 0
+
+class GameScore:
+    var players: Array[PlayerScore_]
+    var victory_condition: int
+
+    func reset(n_players_: int) -> void:
+        for i in range(n_players_):
+            players.append(PlayerScore_.new())
+        victory_condition = Constants.minimum_victory_condition
+
+    func update_victory_condition():
+        var sorted_scores: Array[int] = []
+        for i in range(len(players)):
+            sorted_scores.append(players[i].marginal)
+        sorted_scores.sort()
+        var marginal_condition := sorted_scores[-2] + Constants.victory_margin
+        victory_condition = max(Constants.minimum_victory_condition, marginal_condition)
+
+    func check_victory():
+        for i in range(len(players)):
+            if players[i].marginal >= victory_condition:
+                SignalBus.victory.emit(i)
 
 func _ready():
     SignalBus.half_beat.connect(_on_half_beat)
@@ -83,24 +104,12 @@ func calculate_scores():
 
     for i in range(n_players):
         var marginal: int = max(0, round_scores[i] - threshold)
-        scores[i].marginal += marginal
-        scores[i].total += round_scores[i]
+        scores.players[i].marginal += marginal
+        scores.players[i].total += round_scores[i]
 
-    _update_victory_condition()
-    _check_victory()
+    scores.update_victory_condition()
+    scores.check_victory()
 
-func _update_victory_condition():
-    var sorted_scores: Array[int] = []
-    for i in range(n_players):
-        sorted_scores.append(scores[i].marginal)
-    sorted_scores.sort()
-    var marginal_condition := sorted_scores[-2] + Constants.victory_margin
-    victory_condition = max(Constants.minimum_victory_condition, marginal_condition)
-
-func _check_victory():
-    for i in range(n_players):
-        if scores[i].marginal >= victory_condition:
-            SignalBus.victory.emit(i)
 
 func add_unit(pos: Vector2i, facing: Vector2i, number: int, team: int):
     var unit: Unit = packedUnit.instantiate()
@@ -166,6 +175,5 @@ func resize_window():
     $HUD.size = viewport_size
 
 func reset_scores():
-    scores = []
-    for i in range(n_players):
-        scores.append(PlayerScore_.new())
+    scores = GameScore.new()
+    scores.reset(n_players)

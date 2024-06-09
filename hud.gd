@@ -12,6 +12,7 @@ var even: bool = true
     $BottomBar.get_node("ScoreCard"),
     $BottomBar.get_node("ScoreCard2")
 ]
+@onready var victory_condition_label: Label = $BottomBar.get_node("VictoryCondition")
 
 func _ready():
     SignalBus.beat.connect(_on_beat)
@@ -33,9 +34,10 @@ func _on_beat():
 func _on_resized():
     pass
 
-func _on_new_scores(scores: Array[Map.PlayerScore_]) -> void:
+func _on_new_scores(scores: Map.GameScore) -> void:
     for i in range(2):
-        score_cards[i].text = str(scores[i].marginal) + '(' + str(scores[i].total) + ')'
+        score_cards[i].text = str(scores.players[i].marginal) + '(' + str(scores.players[i].total) + ')'
+    victory_condition_label.text = "Victory Condition: " + str(scores.victory_condition)
 
 func set_tile_size(value: int) -> void:
     tile_size = value
