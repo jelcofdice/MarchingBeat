@@ -68,6 +68,11 @@ func _process(_delta):
     if Input.is_action_just_pressed("spacebar"):
         load_map("2player.json")
         demo = false
+    if Input.is_action_just_pressed("pause"):
+        if $Beat.is_stopped():
+            $Beat.start(-1)
+        else:
+            $Beat.stop()
 
 func _set_init_state():
     load_map("demo.json")
@@ -177,3 +182,7 @@ func resize_window():
 func reset_scores():
     scores = GameScore.new()
     scores.reset(n_players)
+    
+func _on_victory(i_player: int):
+    $Beat.stop()
+

@@ -20,3 +20,27 @@ Feedback from the simple rules will influence design of the complete rules
 The unit will then start moving in that direction one step per beat and will continue until it reaches a city (which it'll capture and then stop by) or collides with another unit.
 
 Units cannot damage each other or be destroyed, at most you can block an opponent with your units.
+
+# Testing
+To run the automated tests, execute the `run_tests.bat` script in the root directory.
+This requires Godot 4.5.1 to be installed.
+
+## Adding new tests
+1. Create a new script in the `res://` folder named `test_<name>.gd`.
+2. Define a `run() -> bool` method in the script.
+3. Perform your test logic in `run()`.
+4. Return `true` for pass, `false` for failure.
+5. The `TestRunner` will automatically discover and execute your test.
+
+Example:
+```gdscript
+extends Node
+
+func run() -> bool:
+    # Setup
+    var x = 1
+    # Assert
+    if x == 1:
+        return true
+    return false
+```
